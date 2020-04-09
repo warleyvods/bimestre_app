@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-      home: Home()
-  ));
+  runApp(MaterialApp(home: Home()));
 }
 
 class Home extends StatefulWidget {
@@ -21,11 +19,6 @@ class _HomeState extends State<Home> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   String textoAppBar = "Calculadora de Aprovação";
-
-/*  String nota1 = "Digite a primeira nota";
-  String nota2 = "Digite a segunda nota";
-  String nota3 = "Digite a terceira nota";
-  String nota4 = "Digite a quarta nota";*/
 
   String info = "Informação";
 
@@ -51,15 +44,11 @@ class _HomeState extends State<Home> {
       double nota = (nota1 + nota2 + nota3 + nota4) / 4;
       print(nota);
 
-
-
-      if(nota >= 6) {
+      if (nota >= 6) {
         info = "Aprovado: ${nota.toStringAsPrecision(2)}";
       } else if (nota < 6) {
         info = "Reprovado: ${nota.toStringAsPrecision(2)}";
       }
-
-
     });
   }
 
@@ -166,17 +155,17 @@ class _HomeState extends State<Home> {
         ));
   }
 
-  TextFormField buildTextFormField(String texto, TextEditingController controller) {
+  TextFormField buildTextFormField(
+      String texto, TextEditingController controller) {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
           hintText: texto,
           border: OutlineInputBorder(),
-          labelStyle:
-          TextStyle(color: Colors.black, fontSize: 20.0)),
-
+          labelStyle: TextStyle(color: Colors.black, fontSize: 20.0)),
       textAlign: TextAlign.center,
       controller: controller,
+      // ignore: missing_return
       validator: (valor) {
         if (valor.isEmpty) {
           return "Insira sua nota, este campo não pode ser nulo!";
