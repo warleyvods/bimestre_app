@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(home: Home()));
+  runApp(MaterialApp(
+      home: Home()
+  ));
 }
 
 class Home extends StatefulWidget {
@@ -20,10 +22,10 @@ class _HomeState extends State<Home> {
 
   String textoAppBar = "Calculadora de Aprovação";
 
-  String nota1 = "Nota da prova do primeiro bimestre!";
-  String nota2 = "Nota da prova do segundo bimestre!";
-  String nota3 = "Nota da prova do terceiro bimestre!";
-  String nota4 = "Nota da prova do quarto bimestre!";
+/*  String nota1 = "Digite a primeira nota";
+  String nota2 = "Digite a segunda nota";
+  String nota3 = "Digite a terceira nota";
+  String nota4 = "Digite a quarta nota";*/
 
   String info = "Informação";
 
@@ -49,7 +51,15 @@ class _HomeState extends State<Home> {
       double nota = (nota1 + nota2 + nota3 + nota4) / 4;
       print(nota);
 
-      info = "Nota: ${nota.toStringAsPrecision(2)}";
+
+
+      if(nota >= 6) {
+        info = "Aprovado: ${nota.toStringAsPrecision(2)}";
+      } else if (nota < 6) {
+        info = "Reprovado: ${nota.toStringAsPrecision(2)}";
+      }
+
+
     });
   }
 
@@ -58,13 +68,17 @@ class _HomeState extends State<Home> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.red,
           title: Text(
             textoAppBar,
           ),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.refresh, color: Colors.white,),
+              icon: Icon(
+                Icons.delete_forever,
+                color: Colors.white,
+              ),
               onPressed: () {
                 resetar();
               },
@@ -112,47 +126,13 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      labelText: nota1,
-                      labelStyle: TextStyle(color: Colors.black, fontSize: 20.0)),
-                  textAlign: TextAlign.center,
-                  controller: nota1Control,
-                  validator: (valor) {
-                    if (valor.isEmpty) {
-                      return "Insira sua nota";
-                    }
-                  },
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      labelText: nota2,
-                      labelStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.0,
-                      )),
-                  textAlign: TextAlign.center,
-                  controller: nota2Control,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      labelText: nota3,
-                      labelStyle: TextStyle(color: Colors.black, fontSize: 20.0)),
-                  textAlign: TextAlign.center,
-                  controller: nota3Control,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: nota4,
-                    labelStyle: TextStyle(color: Colors.black, fontSize: 20.0),
-                  ),
-                  textAlign: TextAlign.center,
-                  controller: nota4Control,
-                ),
+                buildTextFormField("Digite a primeira nota", nota1Control),
+                Divider(),
+                buildTextFormField("Digite a segunda nota", nota2Control),
+                Divider(),
+                buildTextFormField("Digite a terceira nota", nota3Control),
+                Divider(),
+                buildTextFormField("Digite a quarta nota", nota4Control),
                 Padding(
                   padding: EdgeInsets.only(top: 10.0),
                   child: Container(
@@ -161,7 +141,8 @@ class _HomeState extends State<Home> {
                       onPressed: () {
                         if (formKey.currentState.validate()) {
                           calcular();
-                        };
+                        }
+                        ;
                       },
                       child: Text(
                         textoBotaoCalcular,
@@ -183,5 +164,24 @@ class _HomeState extends State<Home> {
             ),
           ),
         ));
+  }
+
+  TextFormField buildTextFormField(String texto, TextEditingController controller) {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+          hintText: texto,
+          border: OutlineInputBorder(),
+          labelStyle:
+          TextStyle(color: Colors.black, fontSize: 20.0)),
+
+      textAlign: TextAlign.center,
+      controller: controller,
+      validator: (valor) {
+        if (valor.isEmpty) {
+          return "Insira sua nota, este campo não pode ser nulo!";
+        }
+      },
+    );
   }
 }
